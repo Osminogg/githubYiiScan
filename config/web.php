@@ -5,7 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
     'id' => 'basic',
-    'name' => 'Template',
+    'name' => 'Github scan',
     'language' => 'ru',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -55,11 +55,11 @@ $config = [
         ],
         'formatter' => [
             'class' => 'yii\i18n\Formatter',
-            'timeZone' => 'Europe/Samara',
+            'timeZone' => 'Europe/Moscow',
             'dateFormat' => 'php:j F Y',
             'datetimeFormat' => 'php:j F Y, H:i',
             'timeFormat' => 'php:H:i:s',
-            'defaultTimeZone' => 'Europe/Samara',
+            'defaultTimeZone' => 'Europe/Moscow',
             'locale' => 'ru-RU'
         ],
     ],

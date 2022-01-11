@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\PasswordResetRequestForm;
+use app\models\RepositorySearch;
 use app\models\ResetPasswordForm;
 use app\models\SignupForm;
 use yii\base\InvalidParamException;
@@ -25,10 +26,13 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'allow' => true,
+                        'actions' => ['login', 'signup', 'request-password-reset', 'reset-password'],
+                        'roles' => ['?'],
+                    ],
+                    [
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -66,7 +70,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $searchModel = new RepositorySearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**

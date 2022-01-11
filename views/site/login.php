@@ -41,9 +41,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="ks-text-center">
             Нет аккаунта? <?= Html::a('Зарегистрироваться', ['site/signup']) ?>
         </div>
-        <div class="ks-text-center">
-            <?= Html::a('Забыл пароль?', ['site/request-password-reset']) ?>
-        </div>
+
+        <br>
+        <pre><b>Тестовые данные</b><br>Логин: <span class="text-danger">admin@mail.ru</span><br>Пароль: <span class="text-danger">1234</span></pre>
+
+<!--        <div class="ks-text-center">-->
+<!--            --><?//= Html::a('Забыл пароль?', ['site/request-password-reset']) ?>
+<!--        </div>-->
 
     <?php ActiveForm::end(); ?>
 </div>

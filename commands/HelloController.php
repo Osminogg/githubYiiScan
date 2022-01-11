@@ -7,6 +7,9 @@
 
 namespace app\commands;
 
+use app\models\Account;
+use app\models\Repository;
+use app\models\Scanner;
 use app\models\User;
 use yii\console\Controller;
 use yii\console\ExitCode;
@@ -33,13 +36,37 @@ class HelloController extends Controller
         return ExitCode::OK;
     }
 
+    public function actionScan()
+    {
+        $repositories = [];
+        $accounts = Account::getActiveList();
+        //сканирование github
+        try {
+            foreach ($accounts as $account)
+            {
+                $result = Scanner::start($account->name);
+                $repositories = array_merge($repositories, $result);
+            }
+        } catch (\Exception $e) {
+            echo 'Ошибка: ',  $e->getMessage(), "\n";
+        }
+        //сортировка
+        usort($repositories, function($a, $b) {
+            return strtotime($b['updated_at']) - strtotime($a['updated_at']);
+
+        });
+        $repositories = array_slice($repositories, 0, 10);
+        //сохранение
+        Repository::saveArray($repositories, $accounts);
+    }
+
     public function actionAddAdmin() {
         $model = User::find()->where(['username' => 'admin'])->one();
         if (empty($model)) {
             $user = new User();
             $user->username = 'admin';
             $user->email = 'admin@mail.ru';
-            $user->setPassword('123');
+            $user->setPassword('1234');
             $user->generateAuthKey();
             if ($user->save()) {
                 echo 'good';
